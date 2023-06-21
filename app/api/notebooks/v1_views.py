@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Path, Request
 
 from app.models import NotebookSchema
 
+from .biz import CreateNotebook, DeleteNotebook, ReadAllNotebook, ReadNotebook, UpdateNotebook
 from .schema import (
     CreateNotebookRequest,
     CreateNotebookResponse,
@@ -10,7 +11,6 @@ from .schema import (
     UpdateNotebookRequest,
     UpdateNotebookResponse,
 )
-from .use_cases import CreateNotebook, DeleteNotebook, ReadAllNotebook, ReadNotebook, UpdateNotebook
 
 router = APIRouter(prefix="/notebooks")
 

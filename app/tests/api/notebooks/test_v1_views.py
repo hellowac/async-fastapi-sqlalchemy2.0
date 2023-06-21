@@ -1,5 +1,7 @@
+import logging
 import pytest
 from httpx import AsyncClient
+from httpx import Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.tests.utils import ID_STRING
@@ -29,8 +31,8 @@ async def test_notebooks_read_all(ac: AsyncClient, session: AsyncSession) -> Non
     await setup_data(session)
 
     # execute
-    response = await ac.get(
-        "/api/notebooks",
+    response: Response = await ac.get(
+        "/api/v1/notebooks",
     )
 
     print(response.content)
@@ -86,7 +88,7 @@ async def test_notebooks_read(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.get(
-        f"/api/notebooks/{notebook.id}",
+        f"/api/v1/notebooks/{notebook.id}",
     )
 
     print(response.content)
@@ -118,7 +120,7 @@ async def test_notebooks_read(ac: AsyncClient, session: AsyncSession) -> None:
 async def test_notebooks_create(ac: AsyncClient, session: AsyncSession) -> None:
     """Create a notebook"""
     # execute
-    response = await ac.post("/api/notebooks", json={"title": "Test Notebook", "notes": []})
+    response = await ac.post("/api/v1/notebooks", json={"title": "Test Notebook", "notes": []})
 
     print(response.content)
     assert 200 == response.status_code
@@ -140,7 +142,7 @@ async def test_notebooks_update(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.put(
-        f"/api/notebooks/{notebook.id}", json={"title": "Test Notebook", "notes": [note.id]}
+        f"/api/v1/notebooks/{notebook.id}", json={"title": "Test Notebook", "notes": [note.id]}
     )
 
     print(response.content)
@@ -179,7 +181,7 @@ async def test_notebooks_delete(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.delete(
-        f"/api/notebooks/{notebooks[0].id}",
+        f"/api/v1/notebooks/{notebooks[0].id}",
     )
 
     print(response.content)

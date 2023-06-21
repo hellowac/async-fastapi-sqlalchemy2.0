@@ -16,41 +16,9 @@ branch_labels = ${repr(branch_labels)}
 depends_on = ${repr(depends_on)}
 
 
-def upgrade():
-    # 前処理
-    pre_upgrade()
-
+def upgrade() -> None:
     ${upgrades if upgrades else "pass"}
 
-    # 後処理
-    post_upgrade()
 
-
-def downgrade():
-    # 前処理
-    pre_downgrade()
-
+def downgrade() -> None:
     ${downgrades if downgrades else "pass"}
-
-    # 後処理
-    post_downgrade()
-
-
-def pre_upgrade():
-    # スキーマ更新前に実行する必要がある処理
-    pass
-
-
-def post_upgrade():
-    # スキーマ更新後に実行する必要がある処理
-    pass
-
-
-def pre_downgrade():
-    # スキーマ更新前に実行する必要がある処理
-    pass
-
-
-def post_downgrade():
-    # スキーマ更新後に実行する必要がある処理
-    pass

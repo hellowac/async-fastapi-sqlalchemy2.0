@@ -30,7 +30,7 @@ async def test_notes_read_all(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.get(
-        "/api/notes",
+        "/api/v1/notes",
     )
 
     print(response.content)
@@ -75,7 +75,7 @@ async def test_notes_read(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.get(
-        f"/api/notes/{note.id}",
+        f"/api/v1/notes/{note.id}",
     )
 
     print(response.content)
@@ -102,7 +102,7 @@ async def test_notes_create(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.post(
-        "/api/notes",
+        "/api/v1/notes",
         json={"title": "Test Note", "content": "Test Content", "notebook_id": notebook.id},
     )
 
@@ -135,7 +135,7 @@ async def test_notes_update(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.put(
-        f"/api/notes/{note.id}",
+        f"/api/v1/notes/{note.id}",
         json={
             "title": "Test Note",
             "content": "Test Content",
@@ -172,7 +172,7 @@ async def test_notes_delete(ac: AsyncClient, session: AsyncSession) -> None:
 
     # execute
     response = await ac.delete(
-        f"/api/notes/{note.id}",
+        f"/api/v1/notes/{note.id}",
     )
 
     print(response.content)

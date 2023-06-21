@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, AsyncIterator, Optional
 
 from pydantic import BaseModel
-from sqlalchemy import ForeignKey, String, select
+from sqlalchemy import ForeignKey, String, Text, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import Mapped, joinedload, mapped_column, relationship
@@ -21,7 +21,7 @@ class Note(Base):
         "id", autoincrement=True, nullable=False, unique=True, primary_key=True
     )
     title: Mapped[str] = mapped_column("title", String(length=64), nullable=False)
-    content: Mapped[str] = mapped_column("content", nullable=False, default="")
+    content: Mapped[str] = mapped_column("content", Text, nullable=False, default="")
 
     notebook_id: Mapped[int] = mapped_column(
         "notebook_id", ForeignKey("notebooks.id"), nullable=False

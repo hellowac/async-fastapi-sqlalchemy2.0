@@ -1,3 +1,5 @@
+import logging
+import warnings
 from typing import AsyncGenerator, Generator
 
 import pytest
@@ -14,6 +16,8 @@ from app.settings import Settings
 
 settings = Settings.parse_obj({})
 
+warnings.filterwarnings("ignore")  # 忽略警告
+
 
 @pytest.fixture
 async def ac() -> AsyncGenerator:
@@ -23,9 +27,9 @@ async def ac() -> AsyncGenerator:
 
 @pytest.fixture(scope="session")
 def setup_db() -> Generator:
-    engine = create_engine(f"{settings.DB_URI.replace('+asyncpg', '')}")
+    engine = create_engine(f"{settings.DB_URI.replace('+aiomysql', '+pymysql')}")
     conn = engine.connect()
-    # トランザクションを一度終了させる
+    # 结束会话
     conn.execute(text("commit"))
     try:
         conn.execute(text("drop database test"))
@@ -35,7 +39,7 @@ def setup_db() -> Generator:
         conn.close()
 
     conn = engine.connect()
-    # トランザクションを一度終了させる
+    # 结束会话
     conn.execute(text("commit"))
     conn.execute(text("create database test"))
     conn.close()
@@ -43,7 +47,7 @@ def setup_db() -> Generator:
     yield
 
     conn = engine.connect()
-    # トランザクションを一度終了させる
+    # 结束会话
     conn.execute(text("commit"))
     try:
         conn.execute(text("drop database test"))
@@ -54,7 +58,7 @@ def setup_db() -> Generator:
 
 @pytest.fixture(scope="session", autouse=True)
 def setup_test_db(setup_db: Generator) -> Generator:
-    engine = create_engine(f"{settings.DB_URI.replace('+asyncpg', '')}/test")
+    engine = create_engine(f"{settings.DB_URI.replace('+aiomysql', '+pymysql')}/test")
 
     with engine.begin():
         Base.metadata.drop_all(engine)

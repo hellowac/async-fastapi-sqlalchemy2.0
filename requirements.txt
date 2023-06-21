@@ -1,6 +1,6 @@
 alembic
 black
 fastapi
-sqlalchemy[postgresql_asyncpg]
+sqlalchemy[asyncio]
 uvicorn[standard]
 
